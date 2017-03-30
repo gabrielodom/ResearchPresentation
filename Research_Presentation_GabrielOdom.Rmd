@@ -1,5 +1,5 @@
 ---
-title: "Applications of Dimension Reduction"
+title: "Applications of Linear Dimension Reduction"
 subtitle: "Three Real Examples and Their Caveats"
 author: "Dr. Gabriel Odom"
 header-includes:
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = FALSE)
 - Introduction
 - Poorly-Posed Heteroscedastic Classification
 - High-Dimensional Classification
-- Multi-state Multivariate Process Monitoring
+- Multi-State Multivariate Process Monitoring
 - Conclusion
 - Future work
 - References
@@ -33,18 +33,21 @@ knitr::opts_chunk$set(echo = FALSE)
   
 ## Introduction
 
-- In multivariate contexts, the number of parameters to estimate increases quadratically with dimension $\left(p + \frac{p}{2}(p + 1)\right)$.
+- In multivariate contexts, the number of parameters to estimate increases quadratically with dimension.
+- That is, we must estimate $p + \frac{p}{2}(p + 1) \in \mathbb{O}(p^2)$ parameters if we have $p$ features.
 - Linear dimension reduction (LDR) allows us to simplify complex data structures to more simple data structures via linear combinations of features.
 - LDR is built around eigen-decomposition / principal component analysis (PCA) or the singular value decomposition (SVD).
 
 
 ## LDR Benefits
 
-- increase model parsimony
-- reduce computational complexity and costs
-- reduce the effect of the *curse of dimensionality*
-- reduce storage costs
-- reduce feature redundancy
+Proper application of LDR can:
+
+- increase model parsimony,
+- reduce computational complexity and costs,
+- reduce the effect of the *curse of dimensionality*,
+- reduce storage costs, and
+- reduce feature redundancy.
 
 
 # Poorly-Posed Heteroscedastic Classification
@@ -78,7 +81,7 @@ The following are all different methods which calculate a *data sufficiency matr
  
 
  
-## SYS: Our New Method
+## SYS: A New Sufficiency Matrix
 Replace the MLE estimators for class covariances with the Haff Shrinkage Estimator in the data sufficiency matrix. That is
 \[
 \widehat{\textbf{M}}_{SYS} := \left[ \tilde{\textbf{S}}^{-1}_{2}\bar{\textbf{x}}_2 - \tilde{\textbf{S}}^{-1}_{1}\bar{\textbf{x}}_1\ \vdots\ \cdots\ \vdots\  \tilde{\textbf{S}}^{-1}_{K}\bar{\textbf{x}}_K - \tilde{\textbf{S}}^{-1}_{1}\bar{\textbf{x}}_1\ \vdots\ \textbf{S}_2 - \textbf{S}_1\ \vdots\ \cdots\ \vdots\ \textbf{S}_K - \textbf{S}_1 \right].
@@ -104,7 +107,7 @@ t(U_k) := \min\left\{ \frac{4\left(p^2 - 1\right)}{\left(n_k - p - 2 \right)p^2}
 
 ## Simulation Results
 ```{r, out.width = "810px", out.height = "500px", fig.align = 'center'}
-knitr::include_graphics("/Users/gabrielodom/Box Sync/Research/Presentations/Miami_Interview/HLDR_CER_Graph.pdf")
+knitr::include_graphics("~/GitHub/ResearchPresentation/HLDR_CER_Graph.pdf")
 ```
 
 ## Simulation Results Discussion
@@ -132,7 +135,7 @@ knitr::include_graphics("/Users/gabrielodom/Box Sync/Research/Presentations/Miam
 
 ## Ionosphere Results
 ```{r, out.width = "810px", out.height = "500px", fig.align = 'center'}
-knitr::include_graphics("/Users/gabrielodom/Box Sync/Research/Presentations/Miami_Interview/Ion_CER_Graph.pdf")
+knitr::include_graphics("~/GitHub/ResearchPresentation/Ion_CER_Graph.pdf")
 ```
 
 ## Results Discussion
@@ -189,30 +192,33 @@ predicted <- map2(classifier, df$test, predict)
 
 ## Current Approaches
 
- - BagBoosting                      CITATION NEEDED
- - Random Forests (RF)              CITATION NEEDED
- - Support Vector Machines (SVM)    CITATION NEEDED
- - k Nearest Neighbours (kNN)       CITATION NEEDED
- - Diagonal LDA and QDA             CITATION NEEDED
- - Boosting                         CITATION NEEDED
- - Nearest Shrunken Centroids (PAM) CITATION NEEDED
- - Sparse LDA and QDA               CITATION NEEDED
- - Friedman's RDA                   CITATION NEEDED
- - HDRDA                            CITATION NEEDED
+ - BagBoosting; @dettling_bagboosting_2004
+ - Random Forests (RF); @breiman_random_2001
+ - Support Vector Machines (SVM); @cristianini_introduction_2000
+ - k Nearest Neighbours (kNN); @cunningham_k-nearest_2007
+ - Diagonal LDA and QDA; @pang_shrinkage-based_2009
+ - Boosting; @schapire_strength_1990
+ - Nearest Shrunken Centroids (PAM); @choi_nearest_2017
+ - Sparse LDA and QDA; @li_sparse_2015
+ - Friedman's Regularized Discriminant Analysis (RDA); @guo_regularized_2007
+ - High-Dimensional RDA (HDRDA); @ramey_high-dimensional_2016
  
-## Our new method
+## A New LDR Algorithm
 <ol>
 <li> Split the observations into testing and training sets with sample sizes $n_{\text{Test}} + n_{\text{Train}} = N$.</li>
-<li> Calculate the Singular Value Decomposition on the $p$-dimensional training data, and create the lossless $p \times n_{\text{Train}}$ linear projection matrix.
-  <ol type = "i">
-  <li> As shown in @hastie_elements_2001 (Section 18.3.5), this projection preserves *all* of the information in the training observations.</li>
-  <li> Do not use test data to build this projection. This will lead to overfitting.</li>
-  </ol>
-</li>
+<li> Calculate the Singular Value Decomposition on the $p$-dimensional training data, and create the lossless $p \times n_{\text{Train}}$ linear projection matrix. As shown in @hastie_elements_2001 (Section 18.3.5), this projection preserves *all* of the information in the training observations. </li>
 <li> Project the training data to $n_{\text{Train}}$, and calculate a data sufficiency matrix.</li>
 <li> Calculate the Singular Value Decomposition on the $n_{\text{Train}}$-dimensional training data, then create a $n_{\text{Train}} \times q$ linear projection matrix, where $q < n_{\text{Train}}$.</li>
 <li>  Reduce the dimension of the training and test data sets, and use these data sets to construct and test your favorite classifier.</li>
 </ol>
+
+## Sparse Correlation LDR
+- After LDR, calculate class covariance matrices.
+- Decompose these class covariances into their respective correlation matrices.
+- Truncate all non-significant correlations based on the standard error under the null hypothesis from Fisher's transformation of the Pearson coefficient.
+- Recompose the newly-sparsed covariance matrix.
+- Perform LDR via sparse SVD routines to reduce the number of parameters to estimate and decrease computational cost.
+- Classify the test observations in the lower-dimensional space.
     
 ## Real Data
 @alon_broad_1999 present a data set on colon cancer. It has 2,000 gene expression measurements on 62 patients, 22 normal patients and 40 cases. Currently, the best mean CER of 0.1040 has been attained by @li_sparse_2015 with their Sparse Quadratic Discriminant Analysis method. The study we compare to uses these parameters:
@@ -226,14 +232,14 @@ We matched their design in every way, but increased the replications from 50 to 
 
 ## Conditonal Error Rates Table
 
-Our currently tested method has the following distribution (in three-dimensional feature space):
+The CER of our sparse correlation method has the following distribution (in three-dimensional feature space):
 
            Min       Q1        Median    Mean      Q3        Max    
 --------   -------   -------   -------   -------   -------   -------
 Error      0.09054   0.09950   0.10188   0.10229   0.10457   0.11591
 
 
-Other methods have the following mean conditional error rates, as given by @dettling_bagboosting_2004:
+Other methods have the following mean CERs, as given by @dettling_bagboosting_2004:
 
            BagBoost   RF         SVM        kNN        DLDA       Boosting   PAM        SLDA
 --------   --------   --------   --------   --------   --------   --------   --------   --------
@@ -301,14 +307,18 @@ AD T2            35      1114      1406      2.3%   1.5%            21.6
 ## Real Data
 - This work is motivated by our partnership with the Colorado School of Mines on the ReNUWit water preservation grant.
 - Our team manages a decentralised wastewater treatment plant in Golden, CO.
-- We measure 35 features and their lagged values (70 features).
+- We measure 40 features and their lagged values (80 features).
 - The continuous features are aggregated to the minute-level.
 - We aim to develop a monitoring process capable of detecting system faults before human operators.
+- We have choices for the blocking variables:
 
-## Results Discussion
+    + Blower operation: controls aeration of the mixture
+    + Sequencing Batch Bioreactor Phase: fill, mix, steep, or release
+    + Membrane Bioreactor Mode: mixing, cleaning, etc
 
 ## Package `mvMonitoring`
-- No website: our package is currently in private beta-testing at the facility.
+- No website: our package is currently in private beta-testing at the facility.    
+- So far, engineers have been pleased with what we've developed so far, and they are working with us closely to polish the package. 
 - `mspProcessData()` generates random draws from a serially autocorrelated and nonstationary multi-state (or single-state) multivariate process.
 - `mspTrain()` trains the projection matrix and fault detection components.
 - `mspMonitor()` assesses incoming process observations and classifies them as normal or abnormal.
@@ -327,6 +337,10 @@ AD T2            35      1114      1406      2.3%   1.5%            21.6
 - Described three applications of linear dimension reduction
 - Presented three accompanying real data sets
 - Discussed three code packages
+
+## Future Work
+- Savvy Feature Filtering: use the SVD "backwards" to select features which have strong influence on a classifier.
+- Optimal Principal Component Selection: rather than choosing features by the largest eigenvalues, choose features by their contribution to a classifier.
 
 <style>
 slides > slide { overflow: scroll; }
