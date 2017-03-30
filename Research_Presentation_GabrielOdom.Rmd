@@ -1,14 +1,14 @@
 ---
 title: "Applications of Linear Dimension Reduction"
-subtitle: "Three Real Examples and Their Caveats"
 author: "Dr. Gabriel Odom"
-header-includes:
-  - \usepackage[linesnumbered, ruled]{algorithm2e}
+header-includes: \usepackage[linesnumbered, ruled]{algorithm2e}
 output:
-  ioslides_presentation:
+  ioslides_presentation: null
+  beamer_presentation: default
 logo: baylor_logo.png
-widescreen: true
+subtitle: Three Real Examples and Their Caveats
 bibliography: miami_bib_abbr.bib
+widescreen: yes
 ---
   
 ```{r setup, include=FALSE}
@@ -107,7 +107,7 @@ t(U_k) := \min\left\{ \frac{4\left(p^2 - 1\right)}{\left(n_k - p - 2 \right)p^2}
 
 ## Simulation Results
 ```{r, out.width = "810px", out.height = "500px", fig.align = 'center'}
-knitr::include_graphics("~/GitHub/ResearchPresentation/HLDR_CER_Graph.pdf")
+knitr::include_graphics("HLDR_CER_Graph.png")
 ```
 
 ## Simulation Results Discussion
@@ -135,7 +135,7 @@ knitr::include_graphics("~/GitHub/ResearchPresentation/HLDR_CER_Graph.pdf")
 
 ## Ionosphere Results
 ```{r, out.width = "810px", out.height = "500px", fig.align = 'center'}
-knitr::include_graphics("~/GitHub/ResearchPresentation/Ion_CER_Graph.pdf")
+knitr::include_graphics("Ion_CER_Graph.png")
 ```
 
 ## Results Discussion
@@ -267,10 +267,10 @@ Mean ER    0.1610     0.1486     0.1505     0.1638     0.1286     0.1914     0.1
 
 ## Example Process Graphs: NOC vs. Fault
 ```{r, fig.align = 'center'}
-knitr::include_graphics("/Users/gabrielodom/Box Sync/Research/Presentations/Miami_Interview/NOC_20170317.png")
+knitr::include_graphics("NOC_20170317.png")
 ```
 ```{r, fig.align = 'center'}
-knitr::include_graphics("/Users/gabrielodom/Box Sync/Research/Presentations/Miami_Interview/Fault2A_20170317.png")
+knitr::include_graphics("Fault2A_20170317.png")
 ```
 
 ## Current Approaches
