@@ -203,7 +203,7 @@ t(U_k) := \min\left\{ \frac{4\left(p^2 - 1\right)}{\left(n_k - p - 2 \right)p^2}
 <ul>
 <li>The synthetic data has three classes.</li>
 <li>We draw 5,000 observations from three \(p = 10\)-dimensional normal distributions.</li>
-<li>The true data sufficency matrix \(\textbf{M}\) given the known parameters has rank 2.</li>
+<li>The true data sufficency matrix \(\textbf{M}\), given the known parameters, has rank 2.</li>
 <li>We chose \(n_i = 15\) as the training sample size to induce a poorly-posed scenario.</li>
 <li>Using the five competing methods, we reduced the data dimension from 10 to \(1, \ldots, 9\).</li>
 <li>For each dimension within each method, we built the quadratic classifier and classified the remaining 4,985 observation in the test data set.</li>
@@ -217,12 +217,12 @@ t(U_k) := \min\left\{ \frac{4\left(p^2 - 1\right)}{\left(n_k - p - 2 \right)p^2}
 </article></slide><slide class=''><hgroup><h2>Simulation Results Discussion</h2></hgroup><article  id="simulation-results-discussion">
 
 <ul>
-<li>The vertical axis (abscissa) is the conditional error rate (CER). This is the proportion of the nearly-15,000 testing observations which were incorrectly classified.</li>
-<li>The horizontal axis (ordinate) is the reduced feature dimension.</li>
+<li>The vertical axis (ordinate) is the conditional error rate (CER). This is the proportion of the nearly-15,000 testing observations which were incorrectly classified.</li>
+<li>The horizontal axis (abscissa) is the reduced feature dimension.</li>
 <li>The coloured boxplots represent the empirical distribution of the 2,500 CERs for each data sufficiency matrix.</li>
 <li>The CER without dimension reduction is the red line at 0.49, which is still better than random guessing for three classes.</li>
 <li>Overall minimum Median CER is 32%, achieved by the SYS method in reduced dimension 2.</li>
-<li>When we increase the ratio of \(n\) to \(p\), SYS approaches SY (not shown).</li>
+<li>When we increase the ratio of \(n\) to \(p\), SYS behaves more like SY (not shown).</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Ionosphere Data</h2></hgroup><article  id="ionosphere-data">
@@ -263,8 +263,8 @@ t(U_k) := \min\left\{ \frac{4\left(p^2 - 1\right)}{\left(n_k - p - 2 \right)p^2}
 <li><a href='http://covest.bearstatistics.com/' title=''>http://covest.bearstatistics.com/</a></li>
 <li>This is our package for generating and estimating matrices.</li>
 <li>Use it to generate Wishart or Singular Wishart covariance matrices for simulation and estimator testing.</li>
-<li>Given a data matrix or data sufficent statistics, we can use it to calculate different covariance matrix estimators.</li>
-<li>The <code>covEst</code> package is a &quot;helper&quot; package for <code>slidR</code>.</li>
+<li>Given a data matrix or data sufficent statistics, we can calculate different covariance matrix estimators.</li>
+<li>The <code>covEst</code> package is a &quot;helper&quot; package for the <code>slidR</code> package.</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Package <code>slidR</code></h2></hgroup><article  id="package-slidr">
@@ -272,7 +272,7 @@ t(U_k) := \min\left\{ \frac{4\left(p^2 - 1\right)}{\left(n_k - p - 2 \right)p^2}
 <ul>
 <li><a href='http://slidr.bearstatistics.com/' title=''>http://slidr.bearstatistics.com/</a></li>
 <li>This package contains a collection of heteroscedastic linear dimension reduction methods useful for supervised learning.</li>
-<li>We designed it from the ground up to utilize pipe operators and other aspects of Hadley&#39;s <code>tidyverse</code></li>
+<li>We designed it from the ground up to utilize pipe operators and other aspects of Hadley&#39;s <code>tidyverse</code>.</li>
 <li>Minimum working example:</li>
 </ul>
 
@@ -294,7 +294,7 @@ predicted &lt;- map2(classifier, df$test, predict)</pre>
 <li>Micro-array and -omics data are often ill-conditioned data sets (\(p &gt;&gt; n\)).</li>
 <li>Some classification methods are severely degraded in ill-posed scenarios.</li>
 <li>Other classification methods fail entirely.</li>
-<li>Use LDR to reduce the feature space of the data and improve classification opportunities.</li>
+<li>Our aim is to use LDR to reduce the feature space of the data and improve classification opportunities.</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Current Approaches</h2></hgroup><article  id="current-approaches-1">
@@ -324,7 +324,7 @@ Split the observations into testing and training sets with sample sizes \(n_{\te
 
 <li>
 
-Calculate the Singular Value Decomposition on the \(p\)-dimensional training data, and create the lossless \(p \times n_{\text{Train}}\) linear projection matrix. As shown in <span class="cite">T. Hastie, Tibshirani, and Friedman (2001)</span> (Section 18.3.5), this projection preserves <em>all</em> of the information in the training observations.
+Calculate the SVD on the \(p\)-dimensional training data, and create the lossless \(p \times n_{\text{Train}}\) linear projection matrix. As shown in <span class="cite">T. Hastie, Tibshirani, and Friedman (2001)</span> Section 18.3.5, this projection preserves <em>all</em> of the information in the training observations.
 
 </li>
 
@@ -336,7 +336,7 @@ Project the training data to \(n_{\text{Train}}\), and calculate a data sufficie
 
 <li>
 
-Calculate the Singular Value Decomposition on the \(n_{\text{Train}}\)-dimensional training data, then create a \(n_{\text{Train}} \times q\) linear projection matrix, where \(q &lt; n_{\text{Train}}\).
+Calculate the SVD on the \(n_{\text{Train}}\)-dimensional training data, then create a \(n_{\text{Train}} \times q\) linear projection matrix, where \(q &lt; n_{\text{Train}}\).
 
 </li>
 
@@ -353,15 +353,15 @@ Reduce the dimension of the training and test data sets, and use these data sets
 <ul>
 <li>After LDR, calculate class covariance matrices.</li>
 <li>Decompose these class covariances into their respective correlation matrices.</li>
-<li>Truncate all non-significant correlations based on the standard error under the null hypothesis from Fisher&#39;s transformation of the Pearson coefficient.</li>
-<li>Recompose the newly-sparsed covariance matrix.</li>
-<li>Perform LDR via sparse SVD routines to reduce the number of parameters to estimate and decrease computational cost.</li>
+<li>Truncate all non-significant correlations within these matrices based on the standard error under the null hypothesis from Fisher&#39;s transformation of the Pearson coefficient.</li>
+<li>Recompose the newly-sparsed covariance matrices.</li>
+<li>Perform LDR via a sparse SVD routine to reduce the number of parameters to estimate and decrease computational cost.</li>
 <li>Classify the test observations in the lower-dimensional space.</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Real Data</h2></hgroup><article  id="real-data">
 
-<p><span class="cite">Alon et al. (1999)</span> present a data set on colon cancer. It has 2,000 gene expression measurements on 62 patients, 22 normal patients and 40 cases. Currently, the best mean CER of 0.1040 has been attained by <span class="cite">Q. Li and Shao (2015)</span> with their Sparse Quadratic Discriminant Analysis method. The study we compare to uses these parameters:</p>
+<p><span class="cite">Alon et al. (1999)</span> present a data set on colon cancer. It has 2,000 gene expression measurements on 62 patients, 22 normal patients and 40 cases. Currently, the best mean CER of 0.1040 has been attained by <span class="cite">Q. Li and Shao (2015)</span> with their Sparse Quadratic Discriminant Analysis method. The study we compete against uses these parameters:</p>
 
 <ul>
 <li>Randomly select a training set with 13 normal observations and 29 cases.</li>
@@ -370,7 +370,7 @@ Reduce the dimension of the training and test data sets, and use these data sets
 <li>Repeat this sampling and classification 50 times.</li>
 </ul>
 
-<p>We matched their design in every way, but increased the replications from 50 to 1000, reducing the simulation standard deviation to less than 0.005. Further, their classification was in the original feature space, which is far more computationally expensive.</p>
+<p>We matched their design in every way, but increased the replications from 50 to 1000, reducing the simulation standard deviation to less than 0.005.</p>
 
 </article></slide><slide class=''><hgroup><h2>Conditonal Error Rates Table</h2></hgroup><article  id="conditonal-error-rates-table">
 
@@ -428,9 +428,10 @@ Reduce the dimension of the training and test data sets, and use these data sets
 
 <ul>
 <li>Our method is at minimum non-inferior&#8212;and possibly superior&#8212;to the current world&#39;s best CER for this colon cancer data.</li>
-<li>Our method uses simple, pre-existing code to perform classification. Specifically, we have used both Friedman&#39;s RDA and QDA with squelched-correlation sparse covariance estimation as our classifiers.</li>
+<li>Our method uses simple, pre-existing code to perform classification. Specifically, we have used both Friedman&#39;s RDA and QDA with sparse-correlation estimators as our classifiers.</li>
 <li><span class="cite">Q. Li and Shao (2015)</span> presented a complex method without published code or packages.</li>
-<li>In contrast, our method is computationally simple and quick, taking less than 3 seconds for classification in a specified dimension for Friedman&#39;s RDA (which requires internal cross-validation).</li>
+<li>Further, their classification was in the original feature space, which is far more computationally expensive.</li>
+<li>In contrast, our method is computationally simple and quick, taking less than 3 seconds for classification in a specified dimension for Friedman&#39;s RDA (which requires internal cross-validation), and even less time for our sparse-correlation QDA.</li>
 </ul>
 
 </article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Multi-State Multivariate Process Monitoring</h2></hgroup><article  id="multi-state-multivariate-process-monitoring">
@@ -440,10 +441,10 @@ Reduce the dimension of the training and test data sets, and use these data sets
 <ul>
 <li>Many factories or other closed production systems use real-time online process monitoring.</li>
 <li>We aim to detect potential problems within the system before they cause damage or cause the process to shut down.</li>
-<li>The process has many sensors (a time series for each).</li>
+<li>The process has many sensors, with a time series for each.</li>
 <li>These sensor readings are not independent across time, and their values may have daily trends / perturbations (autocorrelated and non-stationary).</li>
 <li>The sensors themselves are not independent (cross-correlation of the multiple time series).</li>
-<li>Compute the Squared Prediction Error (SPE) and Hotelling&#39;s \(T^2\) process monitoring statistics regularly to check divergence from Normal Operating Conditions (NOC).</li>
+<li>We compute the Squared Prediction Error (SPE) and Hotelling&#39;s \(T^2\) statistics regularly to check divergence from Normal Operating Conditions (NOC).</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Example Process Graphs: NOC vs. Fault</h2></hgroup><article  id="example-process-graphs-noc-vs.-fault">
@@ -465,15 +466,14 @@ Reduce the dimension of the training and test data sets, and use these data sets
 
 </article></slide><slide class=''><hgroup><h2>MSAD-PCA: Our Contribution</h2></hgroup><article  id="msad-pca-our-contribution">
 
-<p>We choose to work with AD-PCA because it is simple in idea and computation and has non-inferior to superior results to more complicated methods. We followed this train of thought:</p>
+<p>We choose to work with AD-PCA because it is simple in idea and computation and has non-inferior to superior results to more complicated methods.</p>
 
 <ul>
-<li>As the process-dimension increases, computation of process statistics increase cubically. We must reduce the data dimension (PCA).</li>
+<li>As the process-dimension increases, computation of process statistics increase cubically unde PCA. We must reduce the data dimension.</li>
 <li>Feature distributions change over time and are serially correlated (Adaptive-Dynamic PCA).</li>
-<li>Some processes have multiple states.</li>
-<li>Examples include brain waves during different parts of the sleep cycle or chemical concentrations in a tank during different cleaning steps.</li>
+<li>Some processes have multiple states: xamples include brain waves during different parts of the sleep cycle or chemical concentrations in a tank during different cleaning steps.</li>
 <li>These states are highly discrete and can cause data matrix instability (near-0 variance).</li>
-<li>Feature distributions change with different known process states, so block on them (Multi-State ADPCA).</li>
+<li>Feature distributions change with different known process states, so we block on them. This is Multi-State ADPCA (MSAD-PCA).</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Synthetic Data Fault Detection Time</h2></hgroup><article  id="synthetic-data-fault-detection-time">
@@ -533,15 +533,15 @@ Reduce the dimension of the training and test data sets, and use these data sets
 <ul>
 <li>This work is motivated by our partnership with the Colorado School of Mines on the ReNUWit water preservation grant.</li>
 <li>Our team manages a decentralised wastewater treatment plant in Golden, CO.</li>
-<li>We measure 40 features and their lagged values (80 features).</li>
+<li>We measure 40 features and their lagged values (80 total features).</li>
 <li>The continuous features are aggregated to the minute-level.</li>
 <li>We aim to develop a monitoring process capable of detecting system faults before human operators.</li>
 <li><p>We have choices for the blocking variables:</p>
 
 <ul>
-<li>Blower operation: controls aeration of the mixture</li>
-<li>Sequencing Batch Bioreactor Phase: fill, mix, steep, or release</li>
-<li>Membrane Bioreactor Mode: mixing, cleaning, etc</li>
+<li>Blower operation: controls aeration of the mixture.</li>
+<li>Sequencing Batch Bioreactor Phase: fill, mix, steep, or release.</li>
+<li>Membrane Bioreactor Mode: mixing, cleaning, etc.</li>
 </ul></li>
 </ul>
 
@@ -555,7 +555,6 @@ Reduce the dimension of the training and test data sets, and use these data sets
 <li><code>mspMonitor()</code> assesses incoming process observations and classifies them as normal or abnormal.</li>
 <li><code>mspWarning()</code> keeps a running tally of abnormal observations and raises an alarm if necessary.</li>
 <li>Alarms can be sent via email or SMS from the remote facility to the operators or to the central facility.</li>
-<li>Our next phase goal is integrating an iPhone / Android applet for real-time mobile process updates.</li>
 </ul>
 
 </article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Summary and References</h2></hgroup><article  id="summary-and-references">
@@ -563,16 +562,16 @@ Reduce the dimension of the training and test data sets, and use these data sets
 </article></slide><slide class=''><hgroup><h2>Summary</h2></hgroup><article  id="summary">
 
 <ul>
-<li>Described three applications of linear dimension reduction</li>
-<li>Presented three accompanying real data sets</li>
-<li>Discussed three code packages</li>
+<li>We have described three applications of linear dimension reduction.</li>
+<li>We have presented three accompanying real data sets and discussed their details.</li>
+<li>We have discussed three code packages.</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Future Work</h2></hgroup><article  id="future-work">
 
 <ul>
 <li>Savvy Feature Filtering: use the SVD &quot;backwards&quot; to select features which have strong influence on a classifier.</li>
-<li>Optimal Principal Component Selection: rather than choosing features by the largest eigenvalues, choose features by their contribution to a classifier.</li>
+<li>Optimal Principal Component Selection: rather than choosing features by the largest eigenvalues, choose features by their contribution to between-class variance.</li>
 </ul>
 
 <style>
