@@ -289,7 +289,7 @@ We choose to work with AD-PCA because it is simple in idea and computation and h
 
 - As the process-dimension increases, computation of process statistics increase cubically unde PCA. We must reduce the data dimension.
 - Feature distributions change over time and are serially correlated (Adaptive-Dynamic PCA).
-- Some processes have multiple states: xamples include brain waves during different parts of the sleep cycle or chemical concentrations in a tank during different cleaning steps.
+- Some processes have multiple states: samples include brain waves during different parts of the sleep cycle or chemical concentrations in a tank during different cleaning steps.
 - These states are highly discrete and can cause data matrix instability (near-0 variance).
 - Feature distributions change with different known process states, so we block on them. This is Multi-State ADPCA (MSAD-PCA).
 
