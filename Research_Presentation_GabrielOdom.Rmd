@@ -54,9 +54,9 @@ Proper application of LDR can:
 
 ## The Problem Defined
 - We want to classify observations from different elliptical distributions (distributions with negligible higher-order moments).
-- Covariance matrices for each class are sufficiently unequal, implying that pooling these estimates will lead to classifier degredation.
+- Covariance matrices for each class are sufficiently unequal, implying that pooling these estimates will lead to classifier degradation.
 - Real examples are often poorly posed ($n_i < p ^ 2 / 2$), thus class precision matrix estimates are unstable.
-- We introduce a shrinkage estimator to class covariance matrices which uses the bias-variance tradeoff to stabilize these etimates.
+- We introduce a shrinkage estimator to class covariance matrices which uses the bias-variance tradeoff to stabilize these estimates.
 - We employ dimension reduction to increase classifier speed and accuracy.
 
 ## Notation
@@ -99,7 +99,7 @@ t(U_k) := \min\left\{ \frac{4\left(p^2 - 1\right)}{\left(n_k - p - 2 \right)p^2}
 
  - The synthetic data has three classes.
  - We draw 5,000 observations from three $p = 10$-dimensional normal distributions.
- - The true data sufficency matrix $\textbf{M}$, given the known parameters, has rank 2.
+ - The true data sufficiency matrix $\textbf{M}$, given the known parameters, has rank 2.
  - We chose $n_i = 15$ as the training sample size to induce a poorly-posed scenario.
  - Using the five competing methods, we reduced the data dimension from 10 to $1, \ldots, 9$.
  - For each dimension within each method, we built the quadratic classifier and classified the remaining 4,985 observation in the test data set.

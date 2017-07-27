@@ -157,9 +157,9 @@
 
 <ul>
 <li>We want to classify observations from different elliptical distributions (distributions with negligible higher-order moments).</li>
-<li>Covariance matrices for each class are sufficiently unequal, implying that pooling these estimates will lead to classifier degredation.</li>
+<li>Covariance matrices for each class are sufficiently unequal, implying that pooling these estimates will lead to classifier degradation.</li>
 <li>Real examples are often poorly posed (\(n_i &lt; p ^ 2 / 2\)), thus class precision matrix estimates are unstable.</li>
-<li>We introduce a shrinkage estimator to class covariance matrices which uses the bias-variance tradeoff to stabilize these etimates.</li>
+<li>We introduce a shrinkage estimator to class covariance matrices which uses the bias-variance tradeoff to stabilize these estimates.</li>
 <li>We employ dimension reduction to increase classifier speed and accuracy.</li>
 </ul>
 
@@ -203,7 +203,7 @@ t(U_k) := \min\left\{ \frac{4\left(p^2 - 1\right)}{\left(n_k - p - 2 \right)p^2}
 <ul>
 <li>The synthetic data has three classes.</li>
 <li>We draw 5,000 observations from three \(p = 10\)-dimensional normal distributions.</li>
-<li>The true data sufficency matrix \(\textbf{M}\), given the known parameters, has rank 2.</li>
+<li>The true data sufficiency matrix \(\textbf{M}\), given the known parameters, has rank 2.</li>
 <li>We chose \(n_i = 15\) as the training sample size to induce a poorly-posed scenario.</li>
 <li>Using the five competing methods, we reduced the data dimension from 10 to \(1, \ldots, 9\).</li>
 <li>For each dimension within each method, we built the quadratic classifier and classified the remaining 4,985 observation in the test data set.</li>
@@ -663,7 +663,7 @@ slides > slide:not(.nobackground):after {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
